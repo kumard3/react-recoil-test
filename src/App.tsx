@@ -1,30 +1,63 @@
-import NavComponent from "./components/NavComponent";
-import { useRecoilState } from "recoil";
-
+import React from "react";
+import { selector, useRecoilState, useRecoilValueLoadable } from "recoil";
+import AxiosTest from "./AxiosTest";
 import { testAtom } from "./state/test";
+const todos = `https://jsonplaceholder.typicode.com/todos`;
 
-export const HomePage = () => {
-  return (
-    <div className="bg-[#0F182B] ">
-      <h1>tailwind css starter </h1>
-    </div>
-  );
+type Posts = {
+  id: number;
+  title: string;
+  body: string;
+  completed: boolean;
+};
+
+const fetchTodos = selector({
+  key: "todosSelector",
+  get: async ({ get }) => {
+    try {
+      const response = await fetch(todos);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+});
+
+const TodoWithSuspense = () => {
+  const todos: any = useRecoilValueLoadable(fetchTodos);
+  const { state } = todos;
+  const [todo, setTodos] = useRecoilState(testAtom);
+  if (todos.state === "hasError") {
+    return <h1>TodoWithSuspense</h1>;
+  }
+  if (state === "loading") {
+    return <h1>Loading</h1>;
+  }
+  if (state === "hasValue") {
+    const { contents } = todos;
+    setTodos(contents);
+    console.log(todo);
+    return (
+      <div>
+        <h1>Todos</h1>
+        {contents.map((n: Posts) => {
+          return <div key={n.id}>{n.id}</div>;
+        })}
+      </div>
+    );
+  }
+  return <div>Loading</div>;
 };
 
 function App() {
-  const [test, setTest] = useRecoilState(testAtom);
-  console.log(test);
   return (
-    <div className="bg-[#0F182B] text-white min-h-screen ">
-      <NavComponent />
-      <div className="flex flex-col w-full justify-center items-center">
-        <span>{test}</span>
-        <input
-          type="text"
-          className="text-black p-4 rounded-xl"
-          onChange={(e) => setTest(e.target.value)}
-        />
-      </div>
+    <div>
+      with Suspense
+      {/* <React.Suspense fallback={<div>Loading...</div>}> */}
+      <TodoWithSuspense />
+      {/* </React.Suspense> */}
+      <AxiosTest />
     </div>
   );
 }
