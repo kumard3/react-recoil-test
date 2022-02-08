@@ -1,7 +1,9 @@
-import React from "react";
+import NavComponent from "./components/NavComponent";
+import { Route, Routes } from "react-router-dom";
 import { selector, useRecoilState, useRecoilValueLoadable } from "recoil";
-import AxiosTest from "./AxiosTest";
-import { testAtom } from "./state/test";
+import AxiosTest from "./pages/AxiosTest";
+import { axiosTestAtom } from "./state/test";
+import BasicAtom from "./pages/BasicAtom";
 const todos = `https://jsonplaceholder.typicode.com/todos`;
 
 type Posts = {
@@ -27,7 +29,7 @@ const fetchTodos = selector({
 const TodoWithSuspense = () => {
   const todos: any = useRecoilValueLoadable(fetchTodos);
   const { state } = todos;
-  const [todo, setTodos] = useRecoilState(testAtom);
+  const [todo, setTodos] = useRecoilState(axiosTestAtom);
   if (todos.state === "hasError") {
     return <h1>TodoWithSuspense</h1>;
   }
@@ -41,9 +43,22 @@ const TodoWithSuspense = () => {
     return (
       <div>
         <h1>Todos</h1>
-        {contents.map((n: Posts) => {
-          return <div key={n.id}>{n.id}</div>;
-        })}
+        <div className="p-2 my-3">
+          {contents.map((n: Posts) => {
+            return (
+              <div
+                className="bg-slate-800 rounded-xl flex p-2 my-3 justify-between items-center"
+                key={n.id}
+              >
+                <span className="pr-3">{n.id}</span>
+                <div className="">
+                  <p>{n.title}</p>
+                  <p>{n.completed}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
@@ -52,12 +67,15 @@ const TodoWithSuspense = () => {
 
 function App() {
   return (
-    <div>
-      with Suspense
-      {/* <React.Suspense fallback={<div>Loading...</div>}> */}
-      <TodoWithSuspense />
-      {/* </React.Suspense> */}
-      <AxiosTest />
+    <div className="bg-black text-white text-xl min-h-screen ">
+      <NavComponent />
+      <div className="p-4">
+        <Routes>
+          <Route path="/" element={<BasicAtom />} />
+          <Route path="/datafetch" element={<TodoWithSuspense />} />
+          <Route path="/axios" element={<AxiosTest />} />
+        </Routes>
+      </div>
     </div>
   );
 }

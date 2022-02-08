@@ -4,20 +4,12 @@ import useOnClickOutside from "./useOnClickOutside";
 
 const navData = [
   {
-    name: "Home",
-    href: "#home",
+    name: "With Axios",
+    href: "/datafetch",
   },
   {
-    name: "Work",
-    href: "#work",
-  },
-  {
-    name: "About",
-    href: "#about",
-  },
-  {
-    name: "Contact",
-    href: "#contact",
+    name: "axios",
+    href: "/axios",
   },
 ];
 
