@@ -40,7 +40,7 @@ export default function NavComponent() {
                 {isModalOpen ? (
                   <div
                     ref={ref}
-                    className="fixed w-[24rem] right-0 top-0   p-2 h-[100vh]  transition transform md:hidden"
+                    className="fixed w-[24rem] right-0 top-0 bg-black  p-2 h-[100vh]  transition transform md:hidden"
                   >
                     <div className="rounded-lg shadow-lg h-full   ring-opacity-5  border-[1px] border-red-100/20 text-white divide-y-2 divide-gray-50">
                       <div className="pt-5 pb-6 px-5">
