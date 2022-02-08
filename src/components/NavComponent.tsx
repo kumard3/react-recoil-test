@@ -29,10 +29,10 @@ export default function NavComponent() {
           <div className="flex justify-between items-center   py-6 sm:justify-between sm:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <a
-                href="#home"
+                href="/"
                 className="h-20 flex justify-center item-content w-full flex-col"
               >
-                <h1>LOGO</h1>
+                <h1>React Recoil</h1>
               </a>
             </div>
             <div className="-mr-2 -my-2 sm:hidden">

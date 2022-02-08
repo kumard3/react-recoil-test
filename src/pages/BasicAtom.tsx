@@ -7,7 +7,7 @@ function BasicAtom() {
   console.log(test);
   return (
     <div className="flex flex-col w-full justify-center items-center">
-      <span>{test}</span>
+      <h1 className="text-2xl font-sans">{test === "" ? "Enter The Text Here " : test}</h1>
       <input
         type="text"
         className="text-black p-4 rounded-xl"
